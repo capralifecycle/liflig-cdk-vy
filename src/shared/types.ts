@@ -75,9 +75,24 @@ export interface ArtifactVersion {
 }
 
 export interface CognitoDetails {
+  /**
+   * The URL where users can authenticate
+   */
   authUrl: string
+
+  /**
+   * The URL for the /.well-known/jwks.json endpoint
+   */
   jwksUrl: string
+
+  /**
+   * The URL for the /.well-known/openid-configuration endpoint
+   */
   openIdUrl: string
+
+  /**
+   * The URI for the issuer
+   */
   issuer: string
 }
 

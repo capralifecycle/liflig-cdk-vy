@@ -1,0 +1,1773 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`vyCognitoProvider in PROD 1`] = `
+Object {
+  "Resources": Object {
+    "VyCognitoProviderAppClientProviderLambdaLogGroupC41E9B5D": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "VyCognitoProviderAppClientProviderOnEventHandler9CD4463B": Object {
+      "DependsOn": Array [
+        "VyCognitoProviderAppClientProviderOnEventHandlerServiceRoleDefaultPolicy3D07BAFE",
+        "VyCognitoProviderAppClientProviderOnEventHandlerServiceRole354E6F88",
+      ],
+      "Properties": Object {
+        "Code": Any<Object>,
+        "Environment": Object {
+          "Variables": Object {
+            "COGNITO_BASE_DOMAIN": "cognito.vydev.io",
+          },
+        },
+        "Handler": "index.handler",
+        "LoggingConfig": Object {
+          "LogGroup": Object {
+            "Ref": "VyCognitoProviderAppClientProviderLambdaLogGroupC41E9B5D",
+          },
+        },
+        "MemorySize": 256,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "VyCognitoProviderAppClientProviderOnEventHandlerServiceRole354E6F88",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs22.x",
+        "Timeout": 120,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "VyCognitoProviderAppClientProviderOnEventHandlerServiceRole354E6F88": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "VyCognitoProviderAppClientProviderOnEventHandlerServiceRoleDefaultPolicy3D07BAFE": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "execute-api:Invoke",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "VyCognitoProviderAppClientProviderOnEventHandlerServiceRoleDefaultPolicy3D07BAFE",
+        "Roles": Array [
+          Object {
+            "Ref": "VyCognitoProviderAppClientProviderOnEventHandlerServiceRole354E6F88",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "VyCognitoProviderAppClientProviderProviderLogGroupA49BF1A8": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "VyCognitoProviderAppClientProviderframeworkonEvent51907DC9": Object {
+      "DependsOn": Array [
+        "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleDefaultPolicy8EA75D6A",
+        "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleF60B337E",
+      ],
+      "Properties": Object {
+        "Code": Any<Object>,
+        "Description": "AWS CDK resource provider framework - onEvent (Stack/VyCognitoProvider/AppClientProvider/Provider)",
+        "Environment": Object {
+          "Variables": Object {
+            "USER_ON_EVENT_FUNCTION_ARN": Object {
+              "Fn::GetAtt": Array [
+                "VyCognitoProviderAppClientProviderOnEventHandler9CD4463B",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onEvent",
+        "LoggingConfig": Object {
+          "ApplicationLogLevel": "FATAL",
+          "LogFormat": "JSON",
+          "LogGroup": Object {
+            "Ref": "VyCognitoProviderAppClientProviderProviderLogGroupA49BF1A8",
+          },
+        },
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleF60B337E",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs22.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleDefaultPolicy8EA75D6A": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "VyCognitoProviderAppClientProviderOnEventHandler9CD4463B",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "VyCognitoProviderAppClientProviderOnEventHandler9CD4463B",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "VyCognitoProviderAppClientProviderOnEventHandler9CD4463B",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleDefaultPolicy8EA75D6A",
+        "Roles": Array [
+          Object {
+            "Ref": "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleF60B337E",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleF60B337E": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "VyCognitoProviderResourceServerProviderLambdaLogGroupC90FDA53": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "VyCognitoProviderResourceServerProviderOnEventHandlerAFF21060": Object {
+      "DependsOn": Array [
+        "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRoleDefaultPolicyFF063070",
+        "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRole72E9DF8E",
+      ],
+      "Properties": Object {
+        "Code": Any<Object>,
+        "Environment": Object {
+          "Variables": Object {
+            "COGNITO_BASE_DOMAIN": "cognito.vydev.io",
+          },
+        },
+        "Handler": "index.handler",
+        "LoggingConfig": Object {
+          "LogGroup": Object {
+            "Ref": "VyCognitoProviderResourceServerProviderLambdaLogGroupC90FDA53",
+          },
+        },
+        "MemorySize": 256,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRole72E9DF8E",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs22.x",
+        "Timeout": 120,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRole72E9DF8E": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRoleDefaultPolicyFF063070": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "execute-api:Invoke",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRoleDefaultPolicyFF063070",
+        "Roles": Array [
+          Object {
+            "Ref": "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRole72E9DF8E",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "VyCognitoProviderResourceServerProviderProviderLogGroupB80B7B7C": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "VyCognitoProviderResourceServerProviderframeworkonEventC3A72F4B": Object {
+      "DependsOn": Array [
+        "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleDefaultPolicy43E3B138",
+        "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleFBD6491A",
+      ],
+      "Properties": Object {
+        "Code": Any<Object>,
+        "Description": "AWS CDK resource provider framework - onEvent (Stack/VyCognitoProvider/ResourceServerProvider/Provider)",
+        "Environment": Object {
+          "Variables": Object {
+            "USER_ON_EVENT_FUNCTION_ARN": Object {
+              "Fn::GetAtt": Array [
+                "VyCognitoProviderResourceServerProviderOnEventHandlerAFF21060",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onEvent",
+        "LoggingConfig": Object {
+          "ApplicationLogLevel": "FATAL",
+          "LogFormat": "JSON",
+          "LogGroup": Object {
+            "Ref": "VyCognitoProviderResourceServerProviderProviderLogGroupB80B7B7C",
+          },
+        },
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleFBD6491A",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs22.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleDefaultPolicy43E3B138": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "VyCognitoProviderResourceServerProviderOnEventHandlerAFF21060",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "VyCognitoProviderResourceServerProviderOnEventHandlerAFF21060",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "VyCognitoProviderResourceServerProviderOnEventHandlerAFF21060",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleDefaultPolicy43E3B138",
+        "Roles": Array [
+          Object {
+            "Ref": "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleFBD6491A",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleFBD6491A": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+  },
+}
+`;
+
+exports[`vyCognitoProvider in STAGE 1`] = `
+Object {
+  "Resources": Object {
+    "VyCognitoProviderAppClientProviderLambdaLogGroupC41E9B5D": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "VyCognitoProviderAppClientProviderOnEventHandler9CD4463B": Object {
+      "DependsOn": Array [
+        "VyCognitoProviderAppClientProviderOnEventHandlerServiceRoleDefaultPolicy3D07BAFE",
+        "VyCognitoProviderAppClientProviderOnEventHandlerServiceRole354E6F88",
+      ],
+      "Properties": Object {
+        "Code": Any<Object>,
+        "Environment": Object {
+          "Variables": Object {
+            "COGNITO_BASE_DOMAIN": "cognito.vydev.io",
+          },
+        },
+        "Handler": "index.handler",
+        "LoggingConfig": Object {
+          "LogGroup": Object {
+            "Ref": "VyCognitoProviderAppClientProviderLambdaLogGroupC41E9B5D",
+          },
+        },
+        "MemorySize": 256,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "VyCognitoProviderAppClientProviderOnEventHandlerServiceRole354E6F88",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs22.x",
+        "Timeout": 120,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "VyCognitoProviderAppClientProviderOnEventHandlerServiceRole354E6F88": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "VyCognitoProviderAppClientProviderOnEventHandlerServiceRoleDefaultPolicy3D07BAFE": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "execute-api:Invoke",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "VyCognitoProviderAppClientProviderOnEventHandlerServiceRoleDefaultPolicy3D07BAFE",
+        "Roles": Array [
+          Object {
+            "Ref": "VyCognitoProviderAppClientProviderOnEventHandlerServiceRole354E6F88",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "VyCognitoProviderAppClientProviderProviderLogGroupA49BF1A8": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "VyCognitoProviderAppClientProviderframeworkonEvent51907DC9": Object {
+      "DependsOn": Array [
+        "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleDefaultPolicy8EA75D6A",
+        "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleF60B337E",
+      ],
+      "Properties": Object {
+        "Code": Any<Object>,
+        "Description": "AWS CDK resource provider framework - onEvent (Stack/VyCognitoProvider/AppClientProvider/Provider)",
+        "Environment": Object {
+          "Variables": Object {
+            "USER_ON_EVENT_FUNCTION_ARN": Object {
+              "Fn::GetAtt": Array [
+                "VyCognitoProviderAppClientProviderOnEventHandler9CD4463B",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onEvent",
+        "LoggingConfig": Object {
+          "ApplicationLogLevel": "FATAL",
+          "LogFormat": "JSON",
+          "LogGroup": Object {
+            "Ref": "VyCognitoProviderAppClientProviderProviderLogGroupA49BF1A8",
+          },
+        },
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleF60B337E",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs22.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleDefaultPolicy8EA75D6A": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "VyCognitoProviderAppClientProviderOnEventHandler9CD4463B",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "VyCognitoProviderAppClientProviderOnEventHandler9CD4463B",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "VyCognitoProviderAppClientProviderOnEventHandler9CD4463B",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleDefaultPolicy8EA75D6A",
+        "Roles": Array [
+          Object {
+            "Ref": "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleF60B337E",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleF60B337E": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "VyCognitoProviderResourceServerProviderLambdaLogGroupC90FDA53": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "VyCognitoProviderResourceServerProviderOnEventHandlerAFF21060": Object {
+      "DependsOn": Array [
+        "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRoleDefaultPolicyFF063070",
+        "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRole72E9DF8E",
+      ],
+      "Properties": Object {
+        "Code": Any<Object>,
+        "Environment": Object {
+          "Variables": Object {
+            "COGNITO_BASE_DOMAIN": "cognito.vydev.io",
+          },
+        },
+        "Handler": "index.handler",
+        "LoggingConfig": Object {
+          "LogGroup": Object {
+            "Ref": "VyCognitoProviderResourceServerProviderLambdaLogGroupC90FDA53",
+          },
+        },
+        "MemorySize": 256,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRole72E9DF8E",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs22.x",
+        "Timeout": 120,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRole72E9DF8E": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRoleDefaultPolicyFF063070": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "execute-api:Invoke",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRoleDefaultPolicyFF063070",
+        "Roles": Array [
+          Object {
+            "Ref": "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRole72E9DF8E",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "VyCognitoProviderResourceServerProviderProviderLogGroupB80B7B7C": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "VyCognitoProviderResourceServerProviderframeworkonEventC3A72F4B": Object {
+      "DependsOn": Array [
+        "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleDefaultPolicy43E3B138",
+        "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleFBD6491A",
+      ],
+      "Properties": Object {
+        "Code": Any<Object>,
+        "Description": "AWS CDK resource provider framework - onEvent (Stack/VyCognitoProvider/ResourceServerProvider/Provider)",
+        "Environment": Object {
+          "Variables": Object {
+            "USER_ON_EVENT_FUNCTION_ARN": Object {
+              "Fn::GetAtt": Array [
+                "VyCognitoProviderResourceServerProviderOnEventHandlerAFF21060",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onEvent",
+        "LoggingConfig": Object {
+          "ApplicationLogLevel": "FATAL",
+          "LogFormat": "JSON",
+          "LogGroup": Object {
+            "Ref": "VyCognitoProviderResourceServerProviderProviderLogGroupB80B7B7C",
+          },
+        },
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleFBD6491A",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs22.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleDefaultPolicy43E3B138": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "VyCognitoProviderResourceServerProviderOnEventHandlerAFF21060",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "VyCognitoProviderResourceServerProviderOnEventHandlerAFF21060",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "VyCognitoProviderResourceServerProviderOnEventHandlerAFF21060",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleDefaultPolicy43E3B138",
+        "Roles": Array [
+          Object {
+            "Ref": "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleFBD6491A",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleFBD6491A": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+  },
+}
+`;
+
+exports[`vyCognitoProvider in TEST 1`] = `
+Object {
+  "Resources": Object {
+    "VyCognitoProviderAppClientProviderLambdaLogGroupC41E9B5D": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "VyCognitoProviderAppClientProviderOnEventHandler9CD4463B": Object {
+      "DependsOn": Array [
+        "VyCognitoProviderAppClientProviderOnEventHandlerServiceRoleDefaultPolicy3D07BAFE",
+        "VyCognitoProviderAppClientProviderOnEventHandlerServiceRole354E6F88",
+      ],
+      "Properties": Object {
+        "Code": Any<Object>,
+        "Environment": Object {
+          "Variables": Object {
+            "COGNITO_BASE_DOMAIN": "cognito.vydev.io",
+          },
+        },
+        "Handler": "index.handler",
+        "LoggingConfig": Object {
+          "LogGroup": Object {
+            "Ref": "VyCognitoProviderAppClientProviderLambdaLogGroupC41E9B5D",
+          },
+        },
+        "MemorySize": 256,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "VyCognitoProviderAppClientProviderOnEventHandlerServiceRole354E6F88",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs22.x",
+        "Timeout": 120,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "VyCognitoProviderAppClientProviderOnEventHandlerServiceRole354E6F88": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "VyCognitoProviderAppClientProviderOnEventHandlerServiceRoleDefaultPolicy3D07BAFE": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "execute-api:Invoke",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "VyCognitoProviderAppClientProviderOnEventHandlerServiceRoleDefaultPolicy3D07BAFE",
+        "Roles": Array [
+          Object {
+            "Ref": "VyCognitoProviderAppClientProviderOnEventHandlerServiceRole354E6F88",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "VyCognitoProviderAppClientProviderProviderLogGroupA49BF1A8": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "VyCognitoProviderAppClientProviderframeworkonEvent51907DC9": Object {
+      "DependsOn": Array [
+        "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleDefaultPolicy8EA75D6A",
+        "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleF60B337E",
+      ],
+      "Properties": Object {
+        "Code": Any<Object>,
+        "Description": "AWS CDK resource provider framework - onEvent (Stack/VyCognitoProvider/AppClientProvider/Provider)",
+        "Environment": Object {
+          "Variables": Object {
+            "USER_ON_EVENT_FUNCTION_ARN": Object {
+              "Fn::GetAtt": Array [
+                "VyCognitoProviderAppClientProviderOnEventHandler9CD4463B",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onEvent",
+        "LoggingConfig": Object {
+          "ApplicationLogLevel": "FATAL",
+          "LogFormat": "JSON",
+          "LogGroup": Object {
+            "Ref": "VyCognitoProviderAppClientProviderProviderLogGroupA49BF1A8",
+          },
+        },
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleF60B337E",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs22.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleDefaultPolicy8EA75D6A": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "VyCognitoProviderAppClientProviderOnEventHandler9CD4463B",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "VyCognitoProviderAppClientProviderOnEventHandler9CD4463B",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "VyCognitoProviderAppClientProviderOnEventHandler9CD4463B",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleDefaultPolicy8EA75D6A",
+        "Roles": Array [
+          Object {
+            "Ref": "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleF60B337E",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleF60B337E": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "VyCognitoProviderResourceServerProviderLambdaLogGroupC90FDA53": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "VyCognitoProviderResourceServerProviderOnEventHandlerAFF21060": Object {
+      "DependsOn": Array [
+        "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRoleDefaultPolicyFF063070",
+        "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRole72E9DF8E",
+      ],
+      "Properties": Object {
+        "Code": Any<Object>,
+        "Environment": Object {
+          "Variables": Object {
+            "COGNITO_BASE_DOMAIN": "cognito.vydev.io",
+          },
+        },
+        "Handler": "index.handler",
+        "LoggingConfig": Object {
+          "LogGroup": Object {
+            "Ref": "VyCognitoProviderResourceServerProviderLambdaLogGroupC90FDA53",
+          },
+        },
+        "MemorySize": 256,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRole72E9DF8E",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs22.x",
+        "Timeout": 120,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRole72E9DF8E": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRoleDefaultPolicyFF063070": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "execute-api:Invoke",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRoleDefaultPolicyFF063070",
+        "Roles": Array [
+          Object {
+            "Ref": "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRole72E9DF8E",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "VyCognitoProviderResourceServerProviderProviderLogGroupB80B7B7C": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "VyCognitoProviderResourceServerProviderframeworkonEventC3A72F4B": Object {
+      "DependsOn": Array [
+        "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleDefaultPolicy43E3B138",
+        "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleFBD6491A",
+      ],
+      "Properties": Object {
+        "Code": Any<Object>,
+        "Description": "AWS CDK resource provider framework - onEvent (Stack/VyCognitoProvider/ResourceServerProvider/Provider)",
+        "Environment": Object {
+          "Variables": Object {
+            "USER_ON_EVENT_FUNCTION_ARN": Object {
+              "Fn::GetAtt": Array [
+                "VyCognitoProviderResourceServerProviderOnEventHandlerAFF21060",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onEvent",
+        "LoggingConfig": Object {
+          "ApplicationLogLevel": "FATAL",
+          "LogFormat": "JSON",
+          "LogGroup": Object {
+            "Ref": "VyCognitoProviderResourceServerProviderProviderLogGroupB80B7B7C",
+          },
+        },
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleFBD6491A",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs22.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleDefaultPolicy43E3B138": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "VyCognitoProviderResourceServerProviderOnEventHandlerAFF21060",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "VyCognitoProviderResourceServerProviderOnEventHandlerAFF21060",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "VyCognitoProviderResourceServerProviderOnEventHandlerAFF21060",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleDefaultPolicy43E3B138",
+        "Roles": Array [
+          Object {
+            "Ref": "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleFBD6491A",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleFBD6491A": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+  },
+}
+`;
+
+exports[`vyCognitoProvider with custom domain 1`] = `
+Object {
+  "Resources": Object {
+    "VyCognitoProviderAppClientProviderLambdaLogGroupC41E9B5D": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "VyCognitoProviderAppClientProviderOnEventHandler9CD4463B": Object {
+      "DependsOn": Array [
+        "VyCognitoProviderAppClientProviderOnEventHandlerServiceRoleDefaultPolicy3D07BAFE",
+        "VyCognitoProviderAppClientProviderOnEventHandlerServiceRole354E6F88",
+      ],
+      "Properties": Object {
+        "Code": Any<Object>,
+        "Environment": Object {
+          "Variables": Object {
+            "COGNITO_BASE_DOMAIN": "example.com",
+          },
+        },
+        "Handler": "index.handler",
+        "LoggingConfig": Object {
+          "LogGroup": Object {
+            "Ref": "VyCognitoProviderAppClientProviderLambdaLogGroupC41E9B5D",
+          },
+        },
+        "MemorySize": 256,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "VyCognitoProviderAppClientProviderOnEventHandlerServiceRole354E6F88",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs22.x",
+        "Timeout": 120,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "VyCognitoProviderAppClientProviderOnEventHandlerServiceRole354E6F88": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "VyCognitoProviderAppClientProviderOnEventHandlerServiceRoleDefaultPolicy3D07BAFE": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "execute-api:Invoke",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "VyCognitoProviderAppClientProviderOnEventHandlerServiceRoleDefaultPolicy3D07BAFE",
+        "Roles": Array [
+          Object {
+            "Ref": "VyCognitoProviderAppClientProviderOnEventHandlerServiceRole354E6F88",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "VyCognitoProviderAppClientProviderProviderLogGroupA49BF1A8": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "VyCognitoProviderAppClientProviderframeworkonEvent51907DC9": Object {
+      "DependsOn": Array [
+        "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleDefaultPolicy8EA75D6A",
+        "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleF60B337E",
+      ],
+      "Properties": Object {
+        "Code": Any<Object>,
+        "Description": "AWS CDK resource provider framework - onEvent (Stack/VyCognitoProvider/AppClientProvider/Provider)",
+        "Environment": Object {
+          "Variables": Object {
+            "USER_ON_EVENT_FUNCTION_ARN": Object {
+              "Fn::GetAtt": Array [
+                "VyCognitoProviderAppClientProviderOnEventHandler9CD4463B",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onEvent",
+        "LoggingConfig": Object {
+          "ApplicationLogLevel": "FATAL",
+          "LogFormat": "JSON",
+          "LogGroup": Object {
+            "Ref": "VyCognitoProviderAppClientProviderProviderLogGroupA49BF1A8",
+          },
+        },
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleF60B337E",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs22.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleDefaultPolicy8EA75D6A": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "VyCognitoProviderAppClientProviderOnEventHandler9CD4463B",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "VyCognitoProviderAppClientProviderOnEventHandler9CD4463B",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "VyCognitoProviderAppClientProviderOnEventHandler9CD4463B",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleDefaultPolicy8EA75D6A",
+        "Roles": Array [
+          Object {
+            "Ref": "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleF60B337E",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "VyCognitoProviderAppClientProviderframeworkonEventServiceRoleF60B337E": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "VyCognitoProviderResourceServerProviderLambdaLogGroupC90FDA53": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "VyCognitoProviderResourceServerProviderOnEventHandlerAFF21060": Object {
+      "DependsOn": Array [
+        "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRoleDefaultPolicyFF063070",
+        "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRole72E9DF8E",
+      ],
+      "Properties": Object {
+        "Code": Any<Object>,
+        "Environment": Object {
+          "Variables": Object {
+            "COGNITO_BASE_DOMAIN": "example.com",
+          },
+        },
+        "Handler": "index.handler",
+        "LoggingConfig": Object {
+          "LogGroup": Object {
+            "Ref": "VyCognitoProviderResourceServerProviderLambdaLogGroupC90FDA53",
+          },
+        },
+        "MemorySize": 256,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRole72E9DF8E",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs22.x",
+        "Timeout": 120,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRole72E9DF8E": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRoleDefaultPolicyFF063070": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "execute-api:Invoke",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRoleDefaultPolicyFF063070",
+        "Roles": Array [
+          Object {
+            "Ref": "VyCognitoProviderResourceServerProviderOnEventHandlerServiceRole72E9DF8E",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "VyCognitoProviderResourceServerProviderProviderLogGroupB80B7B7C": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "VyCognitoProviderResourceServerProviderframeworkonEventC3A72F4B": Object {
+      "DependsOn": Array [
+        "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleDefaultPolicy43E3B138",
+        "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleFBD6491A",
+      ],
+      "Properties": Object {
+        "Code": Any<Object>,
+        "Description": "AWS CDK resource provider framework - onEvent (Stack/VyCognitoProvider/ResourceServerProvider/Provider)",
+        "Environment": Object {
+          "Variables": Object {
+            "USER_ON_EVENT_FUNCTION_ARN": Object {
+              "Fn::GetAtt": Array [
+                "VyCognitoProviderResourceServerProviderOnEventHandlerAFF21060",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onEvent",
+        "LoggingConfig": Object {
+          "ApplicationLogLevel": "FATAL",
+          "LogFormat": "JSON",
+          "LogGroup": Object {
+            "Ref": "VyCognitoProviderResourceServerProviderProviderLogGroupB80B7B7C",
+          },
+        },
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleFBD6491A",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs22.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleDefaultPolicy43E3B138": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "VyCognitoProviderResourceServerProviderOnEventHandlerAFF21060",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "VyCognitoProviderResourceServerProviderOnEventHandlerAFF21060",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "VyCognitoProviderResourceServerProviderOnEventHandlerAFF21060",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleDefaultPolicy43E3B138",
+        "Roles": Array [
+          Object {
+            "Ref": "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleFBD6491A",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "VyCognitoProviderResourceServerProviderframeworkonEventServiceRoleFBD6491A": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+  },
+}
+`;

@@ -47,7 +47,7 @@
     "@types/aws-lambda": "8.10.157",
     "@types/jest": "30.0.0",
     "@types/node": "24.9.2",
-    "aws-cdk-lib": "2.221.0",
+    "aws-cdk-lib": "2.221.1",
     "constructs": "10.4.2",
     "jest": "30.2.0",
     "jest-cdk-snapshot": "2.3.6",
@@ -60,7 +60,7 @@
   },
   "dependencies": {
     "@aws-crypto/sha256-js": "5.2.0",
-    "@aws-sdk/client-sts": "3.919.0",
+    "@aws-sdk/client-sts": "3.920.0",
     "@smithy/protocol-http": "5.3.3",
     "@smithy/signature-v4": "5.3.3"
   },

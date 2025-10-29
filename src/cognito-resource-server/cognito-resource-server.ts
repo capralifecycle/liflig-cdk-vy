@@ -6,13 +6,8 @@ import { createRequire } from "node:module"
 import * as path from "node:path"
 import { fileURLToPath } from "node:url"
 import * as cdk from "aws-cdk-lib"
-import * as iam from "aws-cdk-lib/aws-iam"
-import * as lambda from "aws-cdk-lib/aws-lambda"
-import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs"
-import * as logs from "aws-cdk-lib/aws-logs"
-import * as cr from "aws-cdk-lib/custom-resources"
 import { Construct } from "constructs"
-import type { VyEnvironment } from "../shared/types"
+import type { ResourceServerProvider } from "../vy-cognito-provider"
 
 const require = createRequire(import.meta.url)
 const __filename = fileURLToPath(import.meta.url)
@@ -32,9 +27,9 @@ export interface Scope {
 
 export interface CognitoResourceServerProps {
   /**
-   * The Vy environment to provision in (e.g., VyEnvironment.PROD, VyEnvironment.STAGE, VyEnvironment.TEST)
+   * An ResourceServerProvider provided from a VyCognitoProvider
    */
-  readonly environment: VyEnvironment
+  readonly resourceServerProvider: ResourceServerProvider
 
   /**
    * The name of the resource server
@@ -58,11 +53,6 @@ export interface CognitoResourceServerProps {
    * @default 'cognito.vydev.io'
    */
   readonly cognitoBaseDomain?: string
-
-  /**
-   * @default logs.RetentionDays.ONE_WEEK
-   */
-  readonly logsRetention?: logs.RetentionDays
 }
 
 /**
@@ -75,8 +65,13 @@ export interface CognitoResourceServerProps {
  *
  * @example
  * ```typescript
+ *  // Create a VyCognitoProvider
+ * const vyCognitoProvider = new VyCognitoProvider(this, 'MyProvider', {
+ *   environment: VyEnvironment.TEST,
+ * });
+ *
  * const resourceServer = new CognitoResourceServer(this, 'ApiResourceServer', {
- *   environment: VyEnvironment.PROD,
+ *   resourceServerProvider: vyCognitoProvider.resourceServerProvider,
  *   name: 'my-api',
  *   identifier: 'https://my-api.vydev.io',
  *   scopes: [
@@ -102,67 +97,16 @@ export class CognitoResourceServer extends Construct {
    */
   public readonly resource: cdk.CustomResource
 
-  /**
-   * The logGroup for the event handler lambda
-   */
-  public readonly lambdaLogGroup: logs.LogGroup
-
-  /**
-   * The logGroup for the custom resource provider
-   */
-  public readonly providerLogGroup: logs.LogGroup
-
   constructor(scope: Construct, id: string, props: CognitoResourceServerProps) {
     super(scope, id)
 
     this.identifier = props.identifier
     this.name = props.name
 
-    this.lambdaLogGroup = new logs.LogGroup(this, "LambdaLogGroup", {
-      retention: props.logsRetention ?? logs.RetentionDays.ONE_WEEK,
-    })
-
-    const onEventHandler = new NodejsFunction(this, "OnEventHandler", {
-      runtime: lambda.Runtime.NODEJS_22_X,
-      handler: "handler",
-      entry: require.resolve(`${__dirname}/handler`),
-      timeout: cdk.Duration.minutes(2),
-      memorySize: 256,
-      logGroup: this.lambdaLogGroup,
-      environment: props.cognitoBaseDomain
-        ? {
-            COGNITO_BASE_DOMAIN: props.cognitoBaseDomain,
-          }
-        : undefined,
-      bundling: {
-        minify: true,
-        sourceMap: true,
-        target: "es2020",
-        externalModules: ["aws-sdk"],
-      },
-    })
-
-    onEventHandler.addToRolePolicy(
-      new iam.PolicyStatement({
-        effect: iam.Effect.ALLOW,
-        actions: ["execute-api:Invoke"],
-        resources: ["*"], // Can be scoped down if API Gateway ARN is known
-      }),
-    )
-
-    this.providerLogGroup = new logs.LogGroup(this, "ProviderLogGroup", {
-      retention: props.logsRetention ?? logs.RetentionDays.ONE_WEEK,
-    })
-
-    const provider = new cr.Provider(this, "Provider", {
-      onEventHandler,
-      logGroup: this.providerLogGroup,
-    })
-
     this.resource = new cdk.CustomResource(this, "Resource", {
-      serviceToken: provider.serviceToken,
+      serviceToken: props.resourceServerProvider.serviceToken,
       properties: {
-        Environment: props.environment,
+        Environment: props.resourceServerProvider.environment,
         Name: props.name,
         Identifier: props.identifier,
         Scopes: props.scopes?.map((s) => ({

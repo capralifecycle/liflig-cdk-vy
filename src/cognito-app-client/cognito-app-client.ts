@@ -6,14 +6,12 @@ import { createRequire } from "node:module"
 import * as path from "node:path"
 import { fileURLToPath } from "node:url"
 import * as cdk from "aws-cdk-lib"
-import * as iam from "aws-cdk-lib/aws-iam"
-import * as lambda from "aws-cdk-lib/aws-lambda"
-import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs"
-import * as logs from "aws-cdk-lib/aws-logs"
+import { SecretValue } from "aws-cdk-lib"
+import type * as iam from "aws-cdk-lib/aws-iam"
+import type * as logs from "aws-cdk-lib/aws-logs"
 import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager"
-import * as cr from "aws-cdk-lib/custom-resources"
 import { Construct } from "constructs"
-import type { VyEnvironment } from "../shared/types"
+import type { AppClientProvider } from "../vy-cognito-provider"
 
 const require = createRequire(import.meta.url)
 const __filename = fileURLToPath(import.meta.url)
@@ -40,9 +38,9 @@ export enum AppClientType {
 
 export interface CognitoAppClientProps {
   /**
-   * The Vy environment to provision in (e.g., VyEnvironment.PROD, VyEnvironment.STAGE, VyEnvironment.TEST)
+   * An AppClientProvider provided from a VyCognitoProvider
    */
-  readonly environment: VyEnvironment
+  readonly appClientProvider: AppClientProvider
 
   /**
    * The name of the app client
@@ -92,14 +90,6 @@ export interface CognitoAppClientProps {
   readonly generateSecret?: boolean
 
   /**
-   * Whether to store the client secret in AWS Secrets Manager
-   * Only applicable if generateSecret is true
-   *
-   * @default true
-   */
-  readonly storeSecretInSecretsManager?: boolean
-
-  /**
    * Name of the secret in AWS Secrets Manager
    * Only applicable if generateSecret is true
    */
@@ -128,9 +118,15 @@ export interface CognitoAppClientProps {
  * - **Frontend**: User authentication using OAuth 2.0 Authorization Code or Implicit Grant
  *
  * @example
+ * ```typescript
+ *  // Create a VyCognitoProvider
+ * const vyCognitoProvider = new VyCognitoProvider(this, 'MyProvider', {
+ *   environment: VyEnvironment.TEST,
+ * });
+ *
  * // Backend app client for M2M authentication
  * const backendClient = new CognitoAppClient(this, 'BackendClient', {
- *   environment: VyEnvironment.TEST,
+ *   appClientProvider: vyCognitoProvider.appClientProvider,
  *   name: 'my-backend-service',
  *   type: AppClientType.BACKEND,
  *   scopes: ['https://api.vydev.io/read', 'https://api.vydev.io/write']
@@ -139,17 +135,25 @@ export interface CognitoAppClientProps {
  * // Access credentials
  * const clientId = backendClient.clientId;
  * const clientSecret = backendClient.clientSecret; // Stored in Secrets Manager
+ * ```
  *
  * @example
+ * ```typescript
+ * // Create a VyCognitoProvider
+ * const vyCognitoProvider = new VyCognitoProvider(this, 'MyProvider', {
+ *   environment: VyEnvironment.TEST,
+ * });
+ *
  * // Frontend app client for user authentication
  * const frontendClient = new CognitoAppClient(this, 'FrontendClient', {
- *   environment: VyEnvironment.PROD,
+ *   appClientProvider: vyCognitoProvider.appClientProvider,
  *   name: 'my-web-app',
  *   type: AppClientType.FRONTEND,
  *   scopes: ['email', 'openid', 'profile'],
  *   callbackUrls: ['https://my-app.vydev.io/auth/callback'],
  *   logoutUrls: ['https://my-app.vydev.io/logout']
  * });
+ * ```
  */
 export class CognitoAppClient extends Construct {
   /**
@@ -163,29 +167,17 @@ export class CognitoAppClient extends Construct {
   public readonly resource: cdk.CustomResource
 
   /**
-   * The logGroup for the event handler lambda
-   */
-  public readonly lambdaLogGroup: logs.LogGroup
-
-  /**
-   * The logGroup for the custom resource provider
-   */
-  public readonly providerLogGroup: logs.LogGroup
-
-  /**
    * The client ID for authentication
    */
   public readonly clientId: string
 
   /**
-   * The client secret (only for backend clients)
-   * If storeSecretInSecretsManager is true, this returns a reference to the secret value
+   * A reference to the client secret
    */
-  public readonly clientSecret?: string
+  public readonly clientSecretArn?: string
 
   /**
    * The Secrets Manager secret containing the client secret
-   * Only available if storeSecretInSecretsManager is true and type is backend
    */
   public readonly clientSecretSecret?: secretsmanager.ISecret
 
@@ -204,67 +196,39 @@ export class CognitoAppClient extends Construct {
       )
     }
 
-    this.lambdaLogGroup = new logs.LogGroup(this, "LambdaLogGroup", {
-      retention: props.logsRetention ?? logs.RetentionDays.ONE_WEEK,
-    })
-
-    const onEventHandler = new NodejsFunction(this, "OnEventHandler", {
-      runtime: lambda.Runtime.NODEJS_22_X,
-      handler: "handler",
-      entry: require.resolve(`${__dirname}/handler`),
-      timeout: cdk.Duration.minutes(2),
-      memorySize: 256,
-      logGroup: this.lambdaLogGroup,
-      environment: props.cognitoBaseDomain
-        ? {
-            COGNITO_BASE_DOMAIN: props.cognitoBaseDomain,
-          }
-        : undefined,
-      bundling: {
-        minify: true,
-        sourceMap: true,
-        target: "es2020",
-        externalModules: ["aws-sdk"],
-      },
-    })
-
-    onEventHandler.addToRolePolicy(
-      new iam.PolicyStatement({
-        effect: iam.Effect.ALLOW,
-        actions: ["execute-api:Invoke"],
-        resources: ["*"], // Can be scoped down if API Gateway ARN is known
-      }),
-    )
-
-    this.providerLogGroup = new logs.LogGroup(this, "ProviderLogGroup", {
-      retention: props.logsRetention ?? logs.RetentionDays.ONE_WEEK,
-    })
-
-    const provider = new cr.Provider(this, "Provider", {
-      onEventHandler,
-      logGroup: this.providerLogGroup,
-    })
+    // props.generateSecret overrides type-specific defaults
+    // Default for backend clients is true; for frontend clients false
+    const generateSecret =
+      props.generateSecret ?? props.type === AppClientType.BACKEND
 
     this.resource = new cdk.CustomResource(this, "Resource", {
-      serviceToken: provider.serviceToken,
+      serviceToken: props.appClientProvider.serviceToken,
       properties: {
-        Environment: props.environment,
+        Environment: props.appClientProvider.environment,
         Name: props.name,
         Type: props.type,
         Scopes: props.scopes || [],
         CallbackUrls: props.callbackUrls || [],
         LogoutUrls: props.logoutUrls || [],
-        GenerateSecret: props.generateSecret,
+        GenerateSecret: generateSecret,
       },
       // Force replacement if type changes
       resourceType: "Custom::VyCognitoAppClient",
     })
 
-    this.clientId = this.resource.getAttString("ClientId")
+    const client_id = this.resource.getAttString("ClientId")
+    this.clientId = client_id
 
-    const shouldStoreSecret = props.storeSecretInSecretsManager !== false
-    if (props.type === AppClientType.BACKEND && shouldStoreSecret) {
-      const secretValue = this.resource.getAttString("ClientSecret")
+    if (generateSecret) {
+      const client_secret = this.resource.getAttString("ClientSecret")
+      const auth_url = props.appClientProvider.auth_url
+
+      // For convenience, store auth_url, client_id, and client_secret in a single JSON secret
+      const secretString = JSON.stringify({
+        auth_url,
+        client_id,
+        client_secret,
+      })
 
       this.clientSecretSecret = new secretsmanager.Secret(
         this,
@@ -272,15 +236,13 @@ export class CognitoAppClient extends Construct {
         {
           secretName:
             props.secretName ??
-            `vy/${props.environment}/cognito/app-client/${props.name}`,
-          description: `Client secret for Vy Cognito app client ${props.name}`,
-          secretStringValue: cdk.SecretValue.unsafePlainText(secretValue),
+            `/vy/${props.appClientProvider.environment}/cognito/app-client/${props.name}`,
+          description: `auth_url, client_id and client_secret for Vy Cognito app client ${props.name}`,
+          secretStringValue: SecretValue.unsafePlainText(secretString),
         },
       )
 
-      this.clientSecret = this.clientSecretSecret.secretValue.unsafeUnwrap()
-    } else if (props.type === AppClientType.BACKEND) {
-      this.clientSecret = this.resource.getAttString("ClientSecret")
+      this.clientSecretArn = this.clientSecretSecret.secretFullArn
     }
   }
 
