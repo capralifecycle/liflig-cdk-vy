@@ -1,0 +1,53 @@
+# Source files (ship compiled version only)
+src/
+# Exclude TypeScript source files but keep lambda/ and .d.ts files
+*.ts
+!*.d.ts
+!lambda/**/*.ts
+
+# Dependencies
+node_modules/
+
+# CDK
+.cdk.staging/
+cdk.out/
+
+# Testing
+coverage/
+*.test.js
+*.spec.js
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Git
+.git
+.gitignore
+
+# Build artifacts we don't need
+*.js.map
+tsconfig.tsbuildinfo
+
+# Documentation (optional - remove these lines if you want to include them)
+examples/
+MIGRATION.md
+SETUP.md

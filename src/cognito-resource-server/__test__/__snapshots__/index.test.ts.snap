@@ -1,0 +1,243 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`cognito resource server 1`] = `
+Object {
+  "Resources": Object {
+    "CognitoResourceServer0B86DEED": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Environment": "test",
+        "Identifier": "testIdentifier",
+        "Name": "testName",
+        "Scopes": Array [
+          Object {
+            "Description": "testScopeDescription",
+            "Name": "testScopeName",
+          },
+        ],
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "CognitoResourceServerProviderframeworkonEventB405FF6C",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::VyCognitoResourceServer",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "CognitoResourceServerLambdaLogGroup2533CBCB": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "CognitoResourceServerOnEventHandlerDBD1E9FA": Object {
+      "DependsOn": Array [
+        "CognitoResourceServerOnEventHandlerServiceRoleDefaultPolicy53C14449",
+        "CognitoResourceServerOnEventHandlerServiceRole47DE02D9",
+      ],
+      "Properties": Object {
+        "Code": Any<Object>,
+        "Handler": "index.handler",
+        "LoggingConfig": Object {
+          "LogGroup": Object {
+            "Ref": "CognitoResourceServerLambdaLogGroup2533CBCB",
+          },
+        },
+        "MemorySize": 256,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "CognitoResourceServerOnEventHandlerServiceRole47DE02D9",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs22.x",
+        "Timeout": 120,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "CognitoResourceServerOnEventHandlerServiceRole47DE02D9": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "CognitoResourceServerOnEventHandlerServiceRoleDefaultPolicy53C14449": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "execute-api:Invoke",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "CognitoResourceServerOnEventHandlerServiceRoleDefaultPolicy53C14449",
+        "Roles": Array [
+          Object {
+            "Ref": "CognitoResourceServerOnEventHandlerServiceRole47DE02D9",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "CognitoResourceServerProviderLogGroup4A440EC6": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "CognitoResourceServerProviderframeworkonEventB405FF6C": Object {
+      "DependsOn": Array [
+        "CognitoResourceServerProviderframeworkonEventServiceRoleDefaultPolicy1DF01FEF",
+        "CognitoResourceServerProviderframeworkonEventServiceRole6F7AB99B",
+      ],
+      "Properties": Object {
+        "Code": Any<Object>,
+        "Description": "AWS CDK resource provider framework - onEvent (Stack/CognitoResourceServer/Provider)",
+        "Environment": Object {
+          "Variables": Object {
+            "USER_ON_EVENT_FUNCTION_ARN": Object {
+              "Fn::GetAtt": Array [
+                "CognitoResourceServerOnEventHandlerDBD1E9FA",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onEvent",
+        "LoggingConfig": Object {
+          "ApplicationLogLevel": "FATAL",
+          "LogFormat": "JSON",
+          "LogGroup": Object {
+            "Ref": "CognitoResourceServerProviderLogGroup4A440EC6",
+          },
+        },
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "CognitoResourceServerProviderframeworkonEventServiceRole6F7AB99B",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs22.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "CognitoResourceServerProviderframeworkonEventServiceRole6F7AB99B": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "CognitoResourceServerProviderframeworkonEventServiceRoleDefaultPolicy1DF01FEF": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "CognitoResourceServerOnEventHandlerDBD1E9FA",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "CognitoResourceServerOnEventHandlerDBD1E9FA",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "CognitoResourceServerOnEventHandlerDBD1E9FA",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "CognitoResourceServerProviderframeworkonEventServiceRoleDefaultPolicy1DF01FEF",
+        "Roles": Array [
+          Object {
+            "Ref": "CognitoResourceServerProviderframeworkonEventServiceRole6F7AB99B",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+  },
+}
+`;
