@@ -96,9 +96,14 @@ async function deleteAppClient(baseUrl: string, name: string): Promise<void> {
   })
 
   if (response.statusCode !== 200) {
-    throw new Error(
-      `Could not delete resource: ${response.statusCode} - ${response.body}`,
-    )
+    const message = `Could not delete resource: ${response.statusCode} - ${response.body}`
+
+    if (response.statusCode === 404) {
+      // Allow soft fail to avoid ROLLBACK_FAILED status
+      console.warn(message)
+    } else {
+      throw new Error(message)
+    }
   }
 }
 
