@@ -94,6 +94,11 @@ export interface CognitoDetails {
    * The URI for the issuer
    */
   issuer: string
+
+  /**
+   * The Vy Cognito Userpool Id
+   */
+  userPoolId: string
 }
 
 /**

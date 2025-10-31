@@ -195,6 +195,7 @@ const envConfigs: Record<string, CognitoDetails> = {
     openIdUrl:
       "https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_e6o46c1oE/.well-known/openid-configuration",
     issuer: "https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_e6o46c1oE",
+    userPoolId: "eu-west-1_e6o46c1oE",
   },
   stage: {
     authUrl: "https://auth.stage.cognito.vydev.io",
@@ -203,6 +204,7 @@ const envConfigs: Record<string, CognitoDetails> = {
     openIdUrl:
       "https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_AUYQ679zW/.well-known/openid-configuration",
     issuer: "https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_AUYQ679zW",
+    userPoolId: "eu-west-1_AUYQ679zW",
   },
   test: {
     authUrl: "https://auth.test.cognito.vydev.io",
@@ -211,5 +213,6 @@ const envConfigs: Record<string, CognitoDetails> = {
     openIdUrl:
       "https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_Z53b9AbeT/.well-known/openid-configuration",
     issuer: "https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_Z53b9AbeT",
+    userPoolId: "eu-west-1_Z53b9AbeT",
   },
 }
