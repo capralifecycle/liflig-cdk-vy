@@ -55,7 +55,7 @@ export class VyCognitoProvider extends Construct {
 
     this.environment = props.environment
     this.cognitoBaseDomain = props.cognitoBaseDomain ?? "cognito.vydev.io"
-    this.details = this.getCognitoDetailsForEnvironment(this.environment)
+    this.details = getCognitoDetailsForEnvironment(this.environment)
 
     const appClientProvider = new LambdaProvider(this, "AppClientProvider", {
       cognitoBaseDomain: this.cognitoBaseDomain,
@@ -87,18 +87,6 @@ export class VyCognitoProvider extends Construct {
       environment: this.environment,
       serviceToken: resourceServerProvider.serviceToken,
     }
-  }
-
-  getCognitoDetailsForEnvironment(environment: VyEnvironment): CognitoDetails {
-    const config = envConfigs[environment]
-
-    if (!config) {
-      throw new Error(
-        `Unknown environment: ${environment}. Valid values are: prod, stage, test`,
-      )
-    }
-
-    return config
   }
 }
 
@@ -184,6 +172,20 @@ class LambdaProvider extends Construct {
 
     this.serviceToken = provider.serviceToken
   }
+}
+
+export function getCognitoDetailsForEnvironment(
+  environment: VyEnvironment,
+): CognitoDetails {
+  const config = envConfigs[environment]
+
+  if (!config) {
+    throw new Error(
+      `Unknown environment: ${environment}. Valid values are: prod, stage, test`,
+    )
+  }
+
+  return config
 }
 
 // Static config for each environment
