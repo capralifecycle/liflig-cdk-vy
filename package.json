@@ -61,7 +61,7 @@
   "dependencies": {
     "@aws-crypto/sha256-js": "5.2.0",
     "@aws-sdk/client-sts": "3.920.0",
-    "@smithy/protocol-http": "5.3.3",
+    "@smithy/protocol-http": "5.3.5",
     "@smithy/signature-v4": "5.3.3"
   },
   "peerDependencies": {
