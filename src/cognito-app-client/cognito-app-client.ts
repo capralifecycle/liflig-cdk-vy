@@ -229,11 +229,9 @@ export class CognitoAppClient extends Construct {
     if (generateSecret) {
       const client_secret = this.resource.getAttString("ClientSecret")
 
-      const auth_url = (
-        props.authUrlPath
-          ? props.appClientProvider.auth_url.concat(props.authUrlPath)
-          : props.appClientProvider.auth_url
-      ).replaceAll("//", "/")
+      const auth_url = props.authUrlPath
+        ? props.appClientProvider.auth_url.concat(props.authUrlPath)
+        : props.appClientProvider.auth_url
 
       // For convenience, store auth_url, client_id, and client_secret in a single JSON secret
       const secretString = JSON.stringify({
