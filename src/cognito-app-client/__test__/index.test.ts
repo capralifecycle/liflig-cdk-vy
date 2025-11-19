@@ -72,3 +72,28 @@ test("cognito frontend app client with custom secretName", () => {
     ignoreAssets: true,
   })
 })
+
+test("cognito frontend app client with custom authUrlPath", () => {
+  const app = new App()
+  const stack = new Stack(app, "Stack")
+
+  const mockAppClientProvider: AppClientProvider = {
+    environment: VyEnvironment.TEST,
+    serviceToken: "serviceToken",
+    auth_url: "auth_url",
+  }
+
+  new CognitoAppClient(stack, "CognitoAppClient", {
+    appClientProvider: mockAppClientProvider,
+    name: "my-web-app",
+    type: AppClientType.FRONTEND,
+    scopes: ["email", "openid", "profile"],
+    callbackUrls: ["https://my-app.vydev.io/auth/callback"],
+    logoutUrls: ["https://my-app.vydev.io/logout"],
+    authUrlPath: "/auth/custom-path",
+  })
+
+  expect(stack).toMatchCdkSnapshot({
+    ignoreAssets: true,
+  })
+})

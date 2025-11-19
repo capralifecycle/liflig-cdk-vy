@@ -86,6 +86,36 @@ Object {
 }
 `;
 
+exports[`cognito frontend app client with custom authUrlPath 1`] = `
+Object {
+  "Resources": Object {
+    "CognitoAppClient6799695E": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "CallbackUrls": Array [
+          "https://my-app.vydev.io/auth/callback",
+        ],
+        "Environment": "test",
+        "GenerateSecret": false,
+        "LogoutUrls": Array [
+          "https://my-app.vydev.io/logout",
+        ],
+        "Name": "my-web-app",
+        "Scopes": Array [
+          "email",
+          "openid",
+          "profile",
+        ],
+        "ServiceToken": "serviceToken",
+        "Type": "frontend",
+      },
+      "Type": "Custom::VyCognitoAppClient",
+      "UpdateReplacePolicy": "Delete",
+    },
+  },
+}
+`;
+
 exports[`cognito frontend app client with custom secretName 1`] = `
 Object {
   "Resources": Object {

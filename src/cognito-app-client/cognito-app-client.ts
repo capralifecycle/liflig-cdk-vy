@@ -105,6 +105,12 @@ export interface CognitoAppClientProps {
    * @default logs.RetentionDays.ONE_WEEK
    */
   readonly logsRetention?: logs.RetentionDays
+
+  /**
+   * @default - No path
+   * Append a path to the auth_url for frontend clients.
+   */
+  readonly authUrlPath?: string
 }
 
 /**
@@ -152,6 +158,7 @@ export interface CognitoAppClientProps {
  *   scopes: ['email', 'openid', 'profile'],
  *   callbackUrls: ['https://my-app.vydev.io/auth/callback'],
  *   logoutUrls: ['https://my-app.vydev.io/logout']
+ *   authUrlPath: '/oauth2/token'
  * });
  * ```
  */
@@ -221,7 +228,12 @@ export class CognitoAppClient extends Construct {
 
     if (generateSecret) {
       const client_secret = this.resource.getAttString("ClientSecret")
-      const auth_url = props.appClientProvider.auth_url
+
+      const auth_url = (
+        props.authUrlPath
+          ? props.appClientProvider.auth_url.concat(props.authUrlPath)
+          : props.appClientProvider.auth_url
+      ).replaceAll("//", "/")
 
       // For convenience, store auth_url, client_id, and client_secret in a single JSON secret
       const secretString = JSON.stringify({

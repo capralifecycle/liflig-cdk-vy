@@ -55,6 +55,7 @@ const frontendClient = new CognitoAppClient(this, "FrontendClient", {
   type: AppClientType.FRONTEND,
   scopes: ["email", "openid", "profile"],
   callbackUrls: ["https://my-app.vydev.io/auth/callback"],
-  logoutUrls:  ["https://my-app.vydev.io/logout"]
+  logoutUrls:  ["https://my-app.vydev.io/logout"],
+  authUrlPath: "/oauth2/token"
 });
 ```
