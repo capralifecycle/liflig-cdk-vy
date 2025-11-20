@@ -11,8 +11,8 @@ import type * as iam from "aws-cdk-lib/aws-iam"
 import type * as logs from "aws-cdk-lib/aws-logs"
 import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager"
 import { Construct } from "constructs"
-import type { AppClientProvider } from "../vy-cognito-provider"
 import { addPathToUrl } from "../shared/url-tools"
+import type { AppClientProvider } from "../vy-cognito-provider"
 
 const require = createRequire(import.meta.url)
 const __filename = fileURLToPath(import.meta.url)

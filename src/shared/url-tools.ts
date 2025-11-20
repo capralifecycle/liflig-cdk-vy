@@ -4,8 +4,8 @@ export function addPathToUrl({ url, path }: { url: string; path: string }) {
     return url
   }
 
-  const newUrl = url.endsWith("/") ? url.substring(0, url.length - 1) : url;
-  const newPath = path.startsWith("/") ? path.substring(1) : path;
+  const newUrl = url.endsWith("/") ? url.substring(0, url.length - 1) : url
+  const newPath = path.startsWith("/") ? path.substring(1) : path
 
-  return newUrl.concat("/", newPath);
+  return newUrl.concat("/", newPath)
 }
