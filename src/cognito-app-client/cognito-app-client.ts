@@ -12,6 +12,7 @@ import type * as logs from "aws-cdk-lib/aws-logs"
 import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager"
 import { Construct } from "constructs"
 import type { AppClientProvider } from "../vy-cognito-provider"
+import { addPathToUrl } from "../shared/url-tools"
 
 const require = createRequire(import.meta.url)
 const __filename = fileURLToPath(import.meta.url)
@@ -229,9 +230,10 @@ export class CognitoAppClient extends Construct {
     if (generateSecret) {
       const client_secret = this.resource.getAttString("ClientSecret")
 
-      const auth_url = props.authUrlPath
-        ? props.appClientProvider.auth_url.concat(props.authUrlPath)
-        : props.appClientProvider.auth_url
+      const auth_url = addPathToUrl({
+        url: props.appClientProvider.auth_url,
+        path: props.authUrlPath ?? "",
+      })
 
       // For convenience, store auth_url, client_id, and client_secret in a single JSON secret
       const secretString = JSON.stringify({
