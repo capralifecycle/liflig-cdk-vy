@@ -62,7 +62,7 @@
     "@aws-crypto/sha256-js": "5.2.0",
     "@aws-sdk/client-sts": "3.967.0",
     "@smithy/protocol-http": "5.3.8",
-    "@smithy/signature-v4": "5.3.7"
+    "@smithy/signature-v4": "5.3.8"
   },
   "peerDependencies": {
     "aws-cdk-lib": "^2.0.0",
