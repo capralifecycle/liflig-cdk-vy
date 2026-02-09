@@ -1,5 +1,9 @@
 import type { IConstruct } from "constructs"
-import type { VyEnvironment } from "./shared/types"
+import type { CognitoDetails, VyEnvironment } from "./shared/types"
+import type {
+  AppClientProvider,
+  ResourceServerProvider,
+} from "./vy-cognito-provider"
 
 export interface VyCognitoProviderAttributes {
   /**
@@ -37,15 +41,15 @@ export interface IVyCognitoProvider extends IConstruct {
   /**
    * Static Cognito details for this VyCognitoProvider
    */
-  readonly details: any
+  readonly details: CognitoDetails
 
   /**
    * Static App Client provider
    */
-  readonly appClientProvider: any
+  readonly appClientProvider: AppClientProvider
 
   /**
    * Static Resource Server provider
    */
-  readonly resourceServerProvider: any
+  readonly resourceServerProvider: ResourceServerProvider
 }
