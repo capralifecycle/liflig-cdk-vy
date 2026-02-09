@@ -9,6 +9,10 @@ import * as logs from "aws-cdk-lib/aws-logs"
 import * as cr from "aws-cdk-lib/custom-resources"
 import { Construct } from "constructs"
 import type { CognitoDetails, VyEnvironment } from "./shared/types"
+import type {
+  IVyCognitoProvider,
+  VyCognitoProviderAttributes,
+} from "./vy-cognito-provider-base"
 
 const require = createRequire(import.meta.url)
 const __filename = fileURLToPath(import.meta.url)
@@ -43,12 +47,37 @@ export interface ResourceServerProvider {
   serviceToken: string
 }
 
-export class VyCognitoProvider extends Construct {
+export class VyCognitoProvider extends Construct implements IVyCognitoProvider {
   public readonly environment: VyEnvironment
   public readonly cognitoBaseDomain: string
   public readonly details: CognitoDetails
   public readonly appClientProvider: AppClientProvider
   public readonly resourceServerProvider: ResourceServerProvider
+
+  public static fromVyCognitoProviderAttributes(
+    scope: Construct,
+    id: string,
+    attrs: VyCognitoProviderAttributes,
+  ): IVyCognitoProvider {
+    class Import extends Construct implements IVyCognitoProvider {
+      public readonly environment = attrs.environment
+      public readonly cognitoBaseDomain = attrs.cognitoBaseDomain
+      public readonly details = getCognitoDetailsForEnvironment(
+        attrs.environment,
+      )
+      public readonly appClientProvider = {
+        environment: attrs.environment,
+        serviceToken: attrs.appClientProviderServiceToken,
+        auth_url: getCognitoDetailsForEnvironment(attrs.environment).authUrl,
+      }
+      public readonly resourceServerProvider = {
+        environment: attrs.environment,
+        serviceToken: attrs.resourceServerProviderServiceToken,
+      }
+    }
+
+    return new Import(scope, id)
+  }
 
   constructor(scope: Construct, id: string, props: VyCognitoProviderProps) {
     super(scope, id)
