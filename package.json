@@ -55,7 +55,7 @@
     "ts-jest": "29.4.9",
     "ts-node": "10.9.2",
     "tsx": "4.21.0",
-    "typescript": "5.9.3",
+    "typescript": "6.0.3",
     "npm-check-updates": "19.6.6"
   },
   "dependencies": {
