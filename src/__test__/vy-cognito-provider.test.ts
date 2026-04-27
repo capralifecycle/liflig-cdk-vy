@@ -1,4 +1,5 @@
 import { App, Stack } from "aws-cdk-lib"
+import { Annotations, Match } from "aws-cdk-lib/assertions"
 import "jest-cdk-snapshot"
 import { VyCognitoProvider } from "../"
 import { VyEnvironment } from "../shared/types"
@@ -54,4 +55,20 @@ test("vyCognitoProvider with custom domain", () => {
   expect(stack).toMatchCdkSnapshot({
     ignoreAssets: true,
   })
+})
+
+test("provider lambdas do not emit aws-sdk v2 runtime warning", () => {
+  const app = new App()
+  const stack = new Stack(app, "Stack")
+
+  new VyCognitoProvider(stack, "VyCognitoProvider", {
+    environment: VyEnvironment.TEST,
+  })
+
+  const annotations = Annotations.fromStack(stack)
+  annotations.hasNoWarning("*", Match.stringLikeRegexp(".*sdkV2NotInRuntime.*"))
+  annotations.hasNoWarning(
+    "*",
+    Match.stringLikeRegexp(".*AWS SDK v2.*Node 16 or lower.*"),
+  )
 })
