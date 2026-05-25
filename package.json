@@ -60,7 +60,7 @@
   },
   "dependencies": {
     "@aws-crypto/sha256-js": "5.2.0",
-    "@aws-sdk/client-sts": "3.1052.0",
+    "@aws-sdk/client-sts": "3.1053.0",
     "@smithy/protocol-http": "5.4.4",
     "@smithy/signature-v4": "5.4.4"
   },
