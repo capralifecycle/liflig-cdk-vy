@@ -42,8 +42,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.1",
-    "@commitlint/cli": "20.5.3",
-    "@commitlint/config-conventional": "20.5.3",
+    "@commitlint/cli": "21.1.0",
+    "@commitlint/config-conventional": "21.1.0",
     "@types/aws-lambda": "8.10.162",
     "@types/jest": "30.0.0",
     "@types/node": "24.13.2",
