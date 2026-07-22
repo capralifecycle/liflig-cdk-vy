@@ -51,7 +51,7 @@
     "constructs": "10.7.0",
     "jest": "30.4.2",
     "jest-cdk-snapshot": "2.3.6",
-    "semantic-release": "25.0.7",
+    "semantic-release": "25.0.8",
     "ts-jest": "29.4.11",
     "ts-node": "10.9.2",
     "tsx": "4.23.1",
