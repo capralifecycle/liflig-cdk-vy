@@ -49,7 +49,7 @@
     "@types/node": "24.13.3",
     "aws-cdk-lib": "2.258.1",
     "constructs": "10.8.1",
-    "jest": "30.4.2",
+    "jest": "30.5.1",
     "jest-cdk-snapshot": "2.3.6",
     "semantic-release": "25.0.9",
     "ts-jest": "29.4.12",
